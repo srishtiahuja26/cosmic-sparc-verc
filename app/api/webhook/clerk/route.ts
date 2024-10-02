@@ -30,6 +30,7 @@ export async function POST(req: Request) {
 
   // Get the body
   const payload = await req.json();
+  console.log(payload);
   const body = JSON.stringify(payload);
 
   // Create a new Svix instance with your secret.
@@ -67,7 +68,8 @@ export async function POST(req: Request) {
       lastName: last_name,
       photo: image_url,
     };
-
+    console.log(user);
+    
     const newUser = await createUser(user);
 
     if (newUser) {
