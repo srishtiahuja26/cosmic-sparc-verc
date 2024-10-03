@@ -147,8 +147,10 @@ export async function getEventsByUser({
 }: GetEventsByUserParams) {
   try {
     await connectToDatabase();
-
-    const conditions = { organizer: userId };
+    const user = await User.findOne({ clerkId: userId }).then(
+      (user) => user._id
+    );
+    const conditions = { organizer: user };
     const skipAmount = (page - 1) * limit;
 
     const eventsQuery = Event.find(conditions)

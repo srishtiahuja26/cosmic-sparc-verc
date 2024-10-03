@@ -27,8 +27,8 @@ const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
 		const order = {
 			eventTitle: event.title,
 			eventId: event._id,
-			price: event.price,
-			isFree: event.isFree,
+			price: '',
+			isFree: true,
 			buyerId: userId,
 		};
 
@@ -43,7 +43,7 @@ const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
 				size="lg"
 				className="button sm:w-fit"
 			>
-				{event.isFree ? 'Get Ticket' : 'Buy Ticket'}
+				Register!
 			</Button>
 		</form>
 	);
