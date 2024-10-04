@@ -34,7 +34,9 @@ const populateEvent = (query: any) => {
 export async function createEvent({ userId, event, path }: CreateEventParams) {
   try {
     await connectToDatabase();
-
+    console.log("====================================");
+    console.log("Event Data : ", event);
+    console.log("====================================");
     const organizer = await User.findOne({ clerkId: userId }).then(
       (user) => user._id
     );

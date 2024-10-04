@@ -14,39 +14,53 @@ import Order from "../database/models/order.model";
 import Event from "../database/models/event.model";
 import { ObjectId } from "mongodb";
 import User from "../database/models/user.model";
+import UserRegistration from "../database/models/registeredusers.model";
+import { revalidatePath } from "next/cache";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   //   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  console.log("====================================");
+  console.log("Data is here : ", order);
+  console.log("====================================");
+  try {
+    await connectToDatabase();
+    const userId = User.findOne({ clerkId: order.buyerId }).then(
+      (user) => user._id
+    );
+    if (!userId) throw new Error("Organizer not found");
+    const newReg = await UserRegistration.create(order);
+    revalidatePath("/");
+    return JSON.parse(JSON.stringify(newReg));
+  } catch (error) {
+    handleError(error);
+  }
+  //   try {
+  //     const session = await stripe.checkout.sessions.create({
+  //       line_items: [
+  //         {
+  //           price_data: {
+  //             currency: "inr",
+  //             unit_amount: price,
+  //             product_data: {
+  //               name: order.eventTitle,
+  //             },
+  //           },
+  //           quantity: 1,
+  //         },
+  //       ],
+  //       metadata: {
+  //         eventId: order.eventId,
+  //         buyerId: order.buyerId,
+  //       },
+  //       mode: "payment",
+  //       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
+  //       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
+  //     });
 
-  const price = order.isFree ? 0 : Number(order.price) * 100;
-
-//   try {
-//     const session = await stripe.checkout.sessions.create({
-//       line_items: [
-//         {
-//           price_data: {
-//             currency: "inr",
-//             unit_amount: price,
-//             product_data: {
-//               name: order.eventTitle,
-//             },
-//           },
-//           quantity: 1,
-//         },
-//       ],
-//       metadata: {
-//         eventId: order.eventId,
-//         buyerId: order.buyerId,
-//       },
-//       mode: "payment",
-//       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
-//       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
-//     });
-
-//     redirect(session.url!);
-//   } catch (error) {
-//     throw error;
-//   }
+  //     redirect(session.url!);
+  //   } catch (error) {
+  //     throw error;
+  //   }
 };
 
 export const createOrder = async (order: CreateOrderParams) => {

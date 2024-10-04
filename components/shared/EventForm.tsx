@@ -41,8 +41,11 @@ type EventFormProps = {
 
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   const { user } = useUser();
-  const isAdmin = user?.firstName === "Vinod" || user?.firstName === "vinod";
-  
+  const isAdmin =
+    user?.firstName === "Vinod" ||
+    user?.firstName === "vinod" ||
+    user?.firstName === "prat";
+
   const [files, setFiles] = useState<File[]>([]);
   const initialValues =
     event && type === "Update"
