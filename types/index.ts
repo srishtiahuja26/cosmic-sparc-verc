@@ -112,7 +112,7 @@ export type CheckoutOrderParams = {
   year: String; // Example values: 1, 2, 3, 4
   courseStream: string; // E.g., B.Tech, B.Sc
   eventId: string;
-  buyerId: string;
+  buyerId: any;
 };
 
 export type CreateOrderParams = {
