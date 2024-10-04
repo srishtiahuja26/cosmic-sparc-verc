@@ -14,7 +14,7 @@ export interface IUserRegistration extends Document {
 
 const UserRegistrationSchema = new Schema({
   fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   contactNumber: { type: String, required: true },
   collegeName: { type: String, required: true },
   year: { type: Number, required: true }, // E.g., 1, 2, 3, 4 for year of study

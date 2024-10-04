@@ -19,9 +19,7 @@ import { revalidatePath } from "next/cache";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   //   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-  console.log("====================================");
-  console.log("Data is here : ", order);
-  console.log("====================================");
+
   try {
     await connectToDatabase();
     const userId = User.findOne({ clerkId: order.buyerId }).then(
@@ -30,7 +28,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
     if (!userId) throw new Error("Organizer not found");
     const newReg = await UserRegistration.create(order);
     revalidatePath("/");
-    return JSON.parse(JSON.stringify(newReg));
+    return JSON.parse(JSON.stringify({ status: 200 }));
   } catch (error) {
     handleError(error);
   }

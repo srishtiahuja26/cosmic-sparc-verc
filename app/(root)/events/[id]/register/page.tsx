@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { SearchParamProps } from "@/types";
+import { useRouter } from "next/navigation";
 import { checkoutOrder } from "@/lib/actions/order.actions";
 
 export default function page({
@@ -11,6 +12,7 @@ export default function page({
 }: SearchParamProps) {
   const { user } = useUser();
   const eventId = id;
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -38,7 +40,10 @@ export default function page({
     };
 
     try {
-      await checkoutOrder(dataToSubmit);
+      const newReg = await checkoutOrder(dataToSubmit);
+      newReg.status === 200
+        ? router.replace("/thankyou")
+        : alert("Error while submiting form, please try again!");
     } catch (error) {}
   };
   return (
