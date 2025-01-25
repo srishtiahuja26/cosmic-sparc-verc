@@ -4,7 +4,6 @@ import {
   getEventById,
   getRelatedEventsByCategory,
 } from "@/lib/actions/event.actions";
-import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import React from "react";
@@ -68,12 +67,12 @@ const EventDetails = async ({
                 />
                 <div className="p-medium-16 lg:p-regular-20 flex flex-wrap items-center">
                   <p>
-                    {formatDateTime(event.startDateTime).dateOnly} -{" "}
-                    {formatDateTime(event.startDateTime).timeOnly}
+                    {new Date(event.startDateTime).toLocaleDateString()} -
+                    {new Date(event.startDateTime).toLocaleTimeString()}
                   </p>
                   <p>
-                    {formatDateTime(event.endDateTime).dateOnly} -{" "}
-                    {formatDateTime(event.endDateTime).timeOnly}
+                    {new Date(event.endDateTime).toLocaleDateString()} -
+                    {new Date(event.endDateTime).toLocaleTimeString()}
                   </p>
                 </div>
               </div>

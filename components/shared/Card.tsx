@@ -1,22 +1,36 @@
-import { IEvent } from '@/lib/database/models/event.model';
-import { formatDateTime } from '@/lib/utils';
-import { auth } from '@clerk/nextjs';
+'use client';
+
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 import { DeleteConfirmation } from './DeleteConfirmation';
 
 type CardProps = {
-	event: IEvent;
+	event: {
+		_id: string;
+		title: string;
+		imageUrl: string;
+		price: number;
+		isFree: boolean;
+		category: {
+			name: string;
+		};
+		startDateTime: Date;
+		organizer?: {
+			_id: string;
+			firstName?: string;
+			lastName?: string;
+		};
+	};
 	hasOrderLink?: boolean;
 	hidePrice?: boolean;
 };
 
 const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
-	const { sessionClaims } = auth();
-	const userId = sessionClaims?.sub as string;
+	const { data: session } = useSession();
+	const userId = session?.user?.id;
 
-	// const isEventCreator = userId === event.organizer._id.toString();
+	const isEventCreator = userId === event.organizer?._id.toString();
 
 	return (
 		<div className="group relative flex min-h-[380px] w-full max-w-[400px] flex-col overflow-hidden rounded-md bg-white shadow-md transition-all hover:shadow-lg md:min-h-[438px]">
@@ -26,7 +40,7 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
 				className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500"
 			/>
 
-			{/* {isEventCreator && !hidePrice && (
+			{isEventCreator && !hidePrice && (
 				<div className="absolute right-2 top-2 flex flex-col gap-4 rounded-md bg-white p-3 shadow-sm transition-all">
 					<Link href={`/events/${event._id}/update`}>
 						<Image
@@ -39,7 +53,7 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
 
 					<DeleteConfirmation eventId={event._id} />
 				</div>
-			)} */}
+			)}
 
 			<div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4">
 				{!hidePrice && (
@@ -54,7 +68,11 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
 				)}
 
 				<p className="p-medium-16 p-medium-18 text-grey-500">
-					{formatDateTime(event.startDateTime).dateTime}
+					{new Date(event.startDateTime).toLocaleDateString('en-US', {
+						day: 'numeric',
+						month: 'long',
+						year: 'numeric',
+					})}
 				</p>
 
 				<Link href={`/events/${event._id}`}>
@@ -64,9 +82,11 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
 				</Link>
 
 				<div className="flex-between w-full">
-					{/* <p className="p-medium-14 md:p-medium-16 text-grey-600">
-						{event.organizer.firstName} {event.organizer.lastName}
-					</p> */}
+					{event.organizer && (
+						<p className="p-medium-14 md:p-medium-16 text-grey-600">
+							{event.organizer.firstName} {event.organizer.lastName}
+						</p>
+					)}
 
 					{hasOrderLink && (
 						<Link

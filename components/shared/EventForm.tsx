@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { eventFormSchema } from "@/lib/validator";
 import * as z from "zod";
 import { eventDefaultValues } from "@/constants";
-import { useUser } from "@clerk/nextjs";
 import Dropdown from "./Dropdown";
 import { Textarea } from "@/components/ui/textarea";
 import { FileUploader } from "./FileUploader";
@@ -40,7 +39,7 @@ type EventFormProps = {
 };
 
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
-  const { user } = useUser();
+  const user = { firstName: "Vinod" };
   const isAdmin =
     user?.firstName === "Vinod" ||
     user?.firstName === "vinod" ||
@@ -50,10 +49,10 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   const initialValues =
     event && type === "Update"
       ? {
-          ...event,
-          startDateTime: new Date(event.startDateTime),
-          endDateTime: new Date(event.endDateTime),
-        }
+        ...event,
+        startDateTime: new Date(event.startDateTime),
+        endDateTime: new Date(event.endDateTime),
+      }
       : eventDefaultValues;
   const router = useRouter();
 

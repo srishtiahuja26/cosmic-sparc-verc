@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import { ClerkProvider } from '@clerk/nextjs';
-import { redirect } from 'next/navigation'
-
+import Providers from '@/app/components/Providers';
 
 import './globals.css';
 
@@ -25,12 +23,13 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body className={poppins.variable}>{children}</body>
-			</html>
-		</ClerkProvider>
+		<html lang="en">
+			<body className={poppins.variable}>
+				<Providers>
+					{children}
+				</Providers>
+			</body>
+		</html>
 	);
 }

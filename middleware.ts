@@ -1,20 +1,19 @@
-import { authMiddleware } from '@clerk/nextjs';
+import { withAuth } from 'next-auth/middleware'
 
-export default authMiddleware({
-	publicRoutes: [
-		'/',
-		'events/:id',
-		'/api/webhook/clerk',
-		'/api/webhook/stripe',
-		'/api/uploadthing',
-	],
-	ignoredRoutes: [
-		'/api/webhook/clerk',
-		'/api/webhook/stripe',
-		'/api/uploadthing',
-	],
-});
+export default withAuth(
+	function middleware(req) {
+		// Your custom middleware logic here
+	},
+	{
+		callbacks: {
+			authorized: ({ token }) => !!token
+		},
+	}
+)
 
 export const config = {
-	matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
-};
+	matcher: [
+		'/admin/:path*',
+		'/events/:path*/register'
+	]
+}
