@@ -17,6 +17,7 @@ const CheckoutButton = ({ event, id }: { event: IEvent; id: String }) => {
         </p>
       ) : (
         <>
+        {/* Adding this comment to inform that it displays 2 register buttons */}
           <Button asChild className="button rounded-md" size="lg">
             <Link href="/sign-in">Register!</Link>
           </Button>

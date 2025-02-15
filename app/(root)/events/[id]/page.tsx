@@ -7,6 +7,7 @@ import {
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const EventDetails = async ({
   params: { id },
@@ -95,6 +96,11 @@ const EventDetails = async ({
                 {event.url}
               </p>
             </div>
+            <Link href={`/events/${event._id}/booktickets`}>
+              <button className="bg-black text-white rounded-md px-4 py-2">
+                Book Tickets
+              </button>
+            </Link>
           </div>
         </div>
       </section>
