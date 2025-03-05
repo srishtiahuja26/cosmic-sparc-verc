@@ -39,6 +39,7 @@ const EventSchema = new Schema({
 	location: { type: String },
 	createdAt: { type: Date, default: Date.now },
 	imageUrl: { type: String, required: true },
+	EventImageUrl : { type: String, required: false },
 	startDateTime: { type: Date, default: Date.now },
 	endDateTime: { type: Date, default: Date.now },
 	price: { type: String },
@@ -46,7 +47,7 @@ const EventSchema = new Schema({
 	category: { type: Schema.Types.ObjectId, ref: 'Category' },
 	organizer: { type: String, ref: 'User' },
 	maxTickets: { type: Number, required: true },
-	ticket_details: { type: [TicketSchema], default: [] },
+	tickets: { type: [TicketSchema], default: [] },
 });
 
 const Event = models.Event || model('Event', EventSchema);

@@ -24,9 +24,9 @@ const EventDetails = async ({
   return (
     <>
       <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-6xl">
           <Image
-            src={event.imageUrl}
+            src={event.EventImageUrl ? event.EventImageUrl : event.imageUrl}
             alt="hero image"
             width={1000}
             height={1000}
@@ -71,6 +71,7 @@ const EventDetails = async ({
                     {new Date(event.startDateTime).toLocaleDateString()} -
                     {new Date(event.startDateTime).toLocaleTimeString()}
                   </p>
+                  <p className="mx-2"></p>
                   <p>
                     {new Date(event.endDateTime).toLocaleDateString()} -
                     {new Date(event.endDateTime).toLocaleTimeString()}
@@ -90,8 +91,8 @@ const EventDetails = async ({
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="p-bold-20 text-grey-600">What You'll Learn:</p>
-              <p className="p-medium-16 lg:p-regular-18">{event.description}</p>
+              {/* <p className="p-bold-20 text-grey-600">What You'll Learn:</p> */}
+              <p className="p-medium-16 lg:p-regular-18 whitespace-pre-line">{event.description}</p>
               <p className="p-medium-16 lg:p-regular-18 truncate text-primary-500 underline">
                 {event.url}
               </p>

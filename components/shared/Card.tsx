@@ -48,6 +48,7 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
 							alt="edit"
 							width={20}
 							height={20}
+							unoptimized={true}
 						/>
 					</Link>
 
