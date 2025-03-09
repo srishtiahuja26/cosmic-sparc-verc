@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-
+interface Event {
+  title: string;
+}
 export default function RegisterPage() {
   const { id } = useParams()
-  const [event, setEvent] = useState(null)
+  const [event, setEvent] = useState<Event | null>(null)
   const router = useRouter()
   const { data: session, status } = useSession()
 

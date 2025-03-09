@@ -5,11 +5,21 @@ import clientPromise from "@/app/lib/mongodb-adapter";
 import { compare } from "bcryptjs";
 
 declare module "next-auth" {
+  interface User {
+    role?: string;
+  }
+  interface AdapterUser {
+    role?: string;
+  }
+}
+
+declare module "next-auth" {
   interface Session {
     user: {
       id?: string;
       role?: string;
       email?: string | null;
+      image?: string | null;
     }
   }
 }
@@ -56,7 +66,7 @@ const handler = NextAuth({
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.sub;
-        session.user.role = token.role;
+        session.user.role = token.role as string;
       }
       return session;
     },

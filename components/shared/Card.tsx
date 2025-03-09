@@ -10,7 +10,7 @@ type CardProps = {
 		_id: string;
 		title: string;
 		imageUrl: string;
-		price: number;
+		price: string | number;
 		isFree: boolean;
 		category: {
 			name: string;
